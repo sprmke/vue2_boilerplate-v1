@@ -1,4 +1,8 @@
-# vue-boilerplate
+# vue boilerplate
+
+![alt text](https://vuejs.org/images/logo.png)
+
+> A boilterplate that lets you get started on developing your VueJS apps. It includes vuex, axios connected to firebase, forms and validation, authentication and route guards, and many more.
 
 ## Project setup
 ```

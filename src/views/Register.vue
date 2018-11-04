@@ -69,8 +69,6 @@
 </template>
 
 <script>
-  import axiosAuth from '../axios-auth';
-
   export default {
     name: "signup",
     data () {
@@ -106,9 +104,7 @@
           terms: this.terms
         }
         console.log(formData)
-        axiosAuth.post('/users.json', formData)
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
+        this.$store.dispatch('register', formData)
       }
     }
   }
