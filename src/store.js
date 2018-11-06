@@ -4,6 +4,8 @@ import Vuex from "vuex";
 import axiosAuth from './axios-auth';
 import globalAxios from 'axios';
 
+import router from './router';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -20,6 +22,10 @@ export default new Vuex.Store({
     },
     storeUser (state, user) {
       state.user = user
+    },
+    clearAuthData (state) {
+      state.idToken = null
+      state.userId = null
     }
   },
   actions: {
@@ -35,6 +41,7 @@ export default new Vuex.Store({
             token: res.data.idToken,
             userId: res.data.localId
           })
+          router.push('/dashboard')
           dispatch('storeUser', authData)
         })
         .catch(err => console.log(err))
@@ -59,8 +66,13 @@ export default new Vuex.Store({
             token: res.data.idToken,
             userId: res.data.localId
           })
+          router.push('/dashboard')
         })
         .catch(err => console.log(err))
+    },
+    logout ({commit}) {
+      commit('clearAuthData')
+      router.push('/login')
     },
     fetchUser ({commit, state}) {
       globalAxios.get('/users.json' + '?auth=' + state.idToken)

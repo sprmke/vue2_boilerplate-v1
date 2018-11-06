@@ -33,13 +33,13 @@ export default new Router({
       path: "/dashboard",
       name: "dashboard",
       component: () => {
-        import("./views/Dashboard.vue")
+        return import("./views/Dashboard.vue")
       },
       beforeEnter (to, from, next) {
         if (store.state.idToken) {
           next()
         } else {
-          next('/register')
+          next('/login')
         }
       }
     }
