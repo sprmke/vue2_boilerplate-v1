@@ -3,8 +3,8 @@
     <h1>VueJS 2 Boilerplate</h1>
     <p>A boilterplate that lets you get started on developing your VueJS apps. It includes vuex, axios connected to firebase, forms and validation, authentication and route guards, etc.</p>
     <div class="cta">
-      <router-link class="signup" to="/signup">Sign Up</router-link>
-      <router-link class="signin" to="/signin">Sign In</router-link>
+      <router-link class="signup" to="/register">Register</router-link>
+      <router-link class="signin" to="/login">Login</router-link>
     </div>
   </div>
 </template>

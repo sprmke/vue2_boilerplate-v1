@@ -5,19 +5,29 @@
     </div>
     <nav>
       <ul>
-        <li>
+        <li v-if="!auth">
           <router-link to="/register">Register</router-link>
         </li>
-        <li>
+        <li v-if="!auth">
           <router-link to="/login">Login</router-link>
         </li>
-        <li>
+        <li v-if="auth">
           <router-link to="/dashboard">Dashboard</router-link>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+  export default {
+    computed: {
+      auth() {
+        return this.$store.getters.isAuthenticated
+      }
+    }
+  }
+</script>
 
 <style lang="scss" scoped>
   .header {
