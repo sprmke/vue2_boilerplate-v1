@@ -2,12 +2,22 @@
   <div class="welcome">
     <h1>VueJS 2 Boilerplate</h1>
     <p>A boilterplate that lets you get started on developing your VueJS apps. It includes vuex, axios connected to firebase, forms and validation, authentication and route guards, etc.</p>
-    <div class="cta">
+    <div v-if="!auth" class="cta">
       <router-link class="signup" to="/register">Register</router-link>
       <router-link class="signin" to="/login">Login</router-link>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    computed: {
+      auth() {
+        return this.$store.getters.isAuthenticated
+      }
+    }
+  }
+</script>
 
 <style lang="scss" scoped>
   .welcome {
