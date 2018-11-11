@@ -2,33 +2,46 @@
   <div id="signup">
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
-        <div class="input">
+        <div class="input" :class="{'invalid': $v.email.$error}">
           <label for="email">Email</label>
           <input
                   type="email"
                   id="email"
-                  v-model="email">
+                  v-model="email"
+                  @input="$v.email.$touch()">
+          <span v-if="!$v.email.email" class="error-message">Please enter a valid email address</span>
+          <span v-if="!$v.email.required && $v.email.$dirty" class="error-message">This field is required</span>
         </div>
-        <div class="input">
+        <div class="input" :class="{'invalid': $v.age.$error}">
           <label for="age">Your Age</label>
           <input
                   type="number"
                   id="age"
-                  v-model.number="age">
+                  v-model.number="age"
+                  @input="$v.age.$touch()">
+          <span v-if="!$v.age.minValue" class="error-message">You have to be atleast {{ $v.age.$params.minValue.min }} years old</span>
+          <span v-if="!$v.age.required && $v.age.$dirty" class="error-message">This field is required</span>
         </div>
-        <div class="input">
+        <div class="input" :class="{'invalid': $v.password.$error}">
           <label for="password">Password</label>
           <input
                   type="password"
                   id="password"
-                  v-model="password">
+                  v-model="password"
+                  @input="$v.password.$touch()">
+          <span v-if="!$v.password.minLength" class="error-message">You have to be atleast {{ $v.password.$params.minLength.min }} years old</span>
+          <span v-if="!$v.password.required && $v.password.$dirty" class="error-message">This field is required</span>
         </div>
-        <div class="input">
+        <div class="input" :class="{'invalid': $v.confirmPassword.$error}">
           <label for="confirm-password">Confirm Password</label>
           <input
                   type="password"
                   id="confirm-password"
-                  v-model="confirmPassword">
+                  v-model="confirmPassword"
+                  @input="$v.confirmPassword.$touch()">
+          <span v-if="$v.confirmPassword.required && !$v.confirmPassword.sameAs && $v.confirmPassword.$dirty" class="error-message">Password and confirm password do not match</span>
+          <span v-if="!$v.confirmPassword.required  && !$v.confirmPassword.sameAs && $v.confirmPassword.$dirty" class="error-message">This field is required</span>
+          <div>{{ $v.confirmPassword }}</div>
         </div>
         <div class="input">
           <label for="country">Country</label>
@@ -69,6 +82,8 @@
 </template>
 
 <script>
+  import { required, email, numeric, minValue, minLength, sameAs } from 'vuelidate/lib/validators';
+
   export default {
     name: "signup",
     data () {
@@ -80,6 +95,28 @@
         country: 'usa',
         hobbyInputs: [],
         terms: false
+      }
+    },
+    validations: {
+      email: {
+        required,
+        email
+      },
+      age: {
+        required,
+        numeric,
+        minValue: minValue(18)
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      },
+      confirmPassword: {
+        required,
+        // sameAs: sameAs('password')
+        sameAs: sameAs(vm => {
+          return vm.password
+        })
       }
     },
     methods: {
@@ -121,6 +158,16 @@
 
   .input {
     margin: 10px auto;
+
+    &.invalid {
+      input,
+      input:focus {
+        border: 1px solid red;
+      }
+      .error-message {
+        color: red;
+      }
+    }
   }
 
   .input label {
